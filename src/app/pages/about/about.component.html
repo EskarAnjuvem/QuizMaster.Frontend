@@ -1,0 +1,30 @@
+<div class="container-5">
+    <div class="jumbotron text-center bg-primary text-white p-4 rounded mt-3">
+        <h1 class="display-5">About this Portal</h1>
+        <p class="lead">Academy of Physics | Sanjeev Kumar</p>
+    </div>
+    
+      <!-- Profile Section -->
+    <div class="row mt-4">        
+        <div class="col-md-8 mt-3">   
+          <h2 class="text-primary">Populating Question Database</h2>
+          <p class="text-muted">For Paper Generator App</p>
+          <p>
+            This website is meant to be used for populating the database of questions. The objective is to create a huge repository of questions - as much as
+            6000 questions over different topics of high school physics. It will be a collection of questions from different books, assignments and DPPs of different 
+            institutes & schools. It would also include questions which actually came in previous exams. However, I would like to minimize repetition of questions in the database.
+            <br/> Finally, one can query this database, to create assignments, exams, etc of varying difficulty level dynamically.
+            <br/><br/>
+            There will be need to understand the design of the database. I think for people who are just learning Database design, this can be a good small project. At least, it was for me.
+            <br><br>So, here we go:  <br>
+            Populating the database starts with outermost tables in my Entity diagram - tables which are independent and have no parent. <br>
+            Question Types, Subjects, Difficulty Levels, Images and Tags are these type of tables. <br>
+            Next, there might be Images for both Questions and Answers - which we need to enter first, alongwith their sizes to be used in the LaTeX markup. <br>
+            Next, we input the Question Text , followed by Answer Text, for each option of the Answer.
+             <br/>
+             QuestionTags is populated last and may be done at a later stage. I put this entire data entry flow within a transaction to avoid concurreny.<br/>
+            
+          </p>
+        </div>
+    </div>        
+</div>

@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <p class="text-primary text-center mt-3">
+        Tag : refers to any question tag, using which the question can be later queried. For now, I prefer storing the topics / sub-topics / chapters as tags. 
+        However it can be the name of any exam as well. The tags must be unique, so kindly check the list of existing tags before adding any new tag.
+    </p>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form id="registrationForm" action="">
+                        <div class="form-group">
+                            <label for="tagName" class="form-label">Enter Tag Name</label>
+                            <input type="text" class="form-control" id="tagName" 
+                                   name="tagName" placeholder="The tag text"
+                                   [(ngModel)]="tagText" required />
+                        </div>                        
+                        <button class="btn btn-primary my-4" (click)="OnSubmittingTag()">
+                            Submit
+                        </button>
+                    </form>                        
+                </div>
+            </div>
+            <div class="card my-4 text-center">
+                <div class="card-body" >
+                    <button class="btn btn-info my-4" (click)="OnShowTags()">
+                        {{showTagButtonText}} 
+                    </button>
+                    <div class="list-group" style="max-height: 300px; overflow-y: auto;" *ngIf="showTagList">
+                        <a class="list-group-item list-group-item-action"
+                          *ngFor="let tag of tags">
+                          {{ tag.tagName }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-12 text-center">
+            <h5>Following form will wrap a single Question, its Answer Options, corresponding Images and Tags under one transaction.</h5>
+            <h6>Repeat for every question to be entered.</h6>
+        </div>
+    </div>
+    <div class="row md-2">
+        <form action="" class="row g-3" [formGroup]="questionTransactionForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+            <div class="col-md-3">
+                <label for="questionType" class="form-label">Question Type: </label>
+                <ng-select id="questionType" [items]="availableTypes" class="form-control" bindLabel="typeName" bindValue="id" [multiple]="false"  formControlName="questionTypeId"
+                          [searchable]="true"  [loading]="availableTypes.length === 0">
+                </ng-select>                
+            </div>
+            <div class="col-md-3">
+                <label for="questionSubject" class="form-label">Subject :</label>
+                <ng-select id="questionSubject" [items]="availableSubjects" class="form-control" bindLabel="subjectName" bindValue="id" [multiple]="false"  formControlName="questionSubjectId"
+                          [searchable]="true"  [loading]="availableSubjects.length === 0">
+                </ng-select>                
+            </div>
+            <div class="col-md-3">
+                <label for="questionDifficultyLevel" class="form-label">Difficulty Level :</label>
+                <ng-select id="questionDifficultyLevel" [items]="difficultyLevels" class="form-control" bindLabel="levelName" bindValue="id" [multiple]="false"  formControlName="questionDifficultyLevelId"
+                          [searchable]="true"  [loading]="difficultyLevels.length === 0">
+                </ng-select>
+            </div>
+            <div class="col-md-3">
+                <label for="questionImageWidth" class="form-label">Question Image Width:</label>
+                <input id="questionImageWidth" class="form-control" type="number" formControlName="questionImageWidth" placeholder="Width of Image" />
+            </div>
+            <div class="col-md-3">
+                <label for="questionImageFile" class="form-label">Image for Question (If any):</label>
+                <input id="questionImageFile" type="file" class="form-control" (change)="onFileChange($event)" />
+            </div>
+            
+            <div class="col-md-4">
+              <label for="ngSelectTags" class="form-label">Tags : </label>
+              <ng-select id="ngSelectTags" [items]="availableTags" class="form-control" bindLabel="tagName" bindValue="id" [multiple]="true"  formControlName="tagIds"
+                        [searchable]="true"  [loading]="availableTags.length === 0">
+              </ng-select>
+          </div>
+            <div class="col-md-2">
+              <label for="answerColumns" class="form-label">Answer Columns:</label>
+              <input id="answerColumns" class="form-control" type="number" formControlName="answerColumns"/>
+            </div>
+            <div class="col-md-3">
+              <label for="answerImageWidth" class="form-label">Mini Page Width (If any):</label>
+              <input id="answerImageWidth" class="form-control" type="number" formControlName="miniPageWidth"/>
+            </div>            
+            <div class="col-md-12">
+                <label for="questionDescription" class="form-label">Question Text (in LaTeX)</label>
+                <textarea id="questionDescription" class="form-control" name="review" rows="2" cols="40" 
+                    placeholder="Provide Question Statement..." formControlName="questionText"></textarea>
+            </div>
+
+            <!-- <div class="col-md-9">
+              <label for="answerOptionA" class="form-label">Answer Option A (in LaTeX)</label>
+              <textarea id="answerOptionA" class="form-control" name="review" rows="2" cols="40" 
+                  placeholder="Provide Answer Option Statement A..." formControlName="answerTextOptionA"></textarea>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Selected Answer Option A? </label> <br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionACorrect" />
+                <label class="form-check-label" for="option1">True</label>
+              </div>                       
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionACorrect" />
+                <label class="form-check-label" for="option2">False</label>
+              </div>
+            </div>
+ 
+            <div class="col-md-9">
+              <label for="answerOptionB" class="form-label">Answer Text (in LaTeX)</label>
+              <textarea id="answerOptionB" class="form-control" name="review" rows="2" cols="40" 
+                  placeholder="Provide Answer Option Statement B..." formControlName="answerTextOptionB"></textarea>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Selected Answer Option B? </label> <br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionBCorrect" />
+                <label class="form-check-label" for="option1">True</label>
+              </div>   
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionBCorrect" />
+                <label class="form-check-label" for="option2">False</label>
+              </div>
+            </div>
+
+            <div class="col-md-9">
+              <label for="answerOptionC" class="form-label">Answer Text (in LaTeX)</label>
+              <textarea id="answerOptionC" class="form-control" name="review" rows="2" cols="40" 
+                  placeholder="Provide Answer Option Statement C..." formControlName="answerTextOptionC"></textarea>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Selected Answer Option C? </label> <br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionCCorrect" />
+                <label class="form-check-label" for="option1">True</label>
+              </div>  
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionCCorrect" />
+                <label class="form-check-label" for="option2">False</label>
+              </div>
+            </div>
+
+            <div class="col-md-9">
+              <label for="answerOptionA" class="form-label">Answer Text (in LaTeX)</label>
+              <textarea id="answerOptionD" class="form-control" name="review" rows="2" cols="40" 
+                  placeholder="Provide Answer Option Statement D..." formControlName="answerTextOptionD"></textarea>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Selected Answer Option D? </label> <br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionDCorrect" />
+                <label class="form-check-label" for="option1">True</label>
+              </div>             
+              <div class="form-check form-check-inline">
+                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionDCorrect" />
+                <label class="form-check-label" for="option2">False</label>
+              </div>
+            </div>     -->
+            
+            
+            <div formArrayName="answerOptions" class="col-12">
+              <div *ngFor="let answer of answerOptions.controls; let i = index" [formGroupName]="i" style="margin-bottom: 1em;" class="row">
+                <div class="col-md-10">
+                  <label class="form-label">Answer Option {{ i + 1 }}:</label>
+                  <textarea formControlName="answerText" class="form-control" rows="2" cols="40" placeholder="Enter answer text"></textarea>
+                </div>
+                
+                <div class="col-md-2 py-4 form-check custom-checkbox">
+                  <label class="form-check-label"> Is Correct ? </label>
+                  <input type="checkbox" class="form-check-input styled-checkbox" formControlName="isCorrect"> 
+                  <!-- <input class="form-check-input custom-radio" type="radio" formControlName="isCorrect" value="false" name="isCorrect"/>    -->
+                  <!-- Above associated only one radio option probably, so gives Bad Request repsonse -->
+                </div>                
+              </div>
+            </div>
+
+            <div class="col-12 mt-2 mb-5">
+                <button class="btn btn-primary" type="button" (click)="onSubmit()" [disabled]="!questionTransactionForm.valid">Submit Question</button>
+            </div>
+
+            
+        </form>
+    </div>
+</div>
+
+
