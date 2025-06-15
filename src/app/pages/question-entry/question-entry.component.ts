@@ -20,6 +20,7 @@ export class QuestionEntryComponent implements OnInit {
   availableSubjects: any[] = [];
   difficultyLevels: any[] = [];
   selectedOption: boolean = false;
+  isSubmitting: boolean = false;
 
   questionTransactionForm: FormGroup = new FormGroup(
     {
@@ -38,7 +39,7 @@ export class QuestionEntryComponent implements OnInit {
         new FormGroup({ answerText: new FormControl("", [Validators.required]), isCorrect: new FormControl(false) }),
         new FormGroup({ answerText: new FormControl("", [Validators.required]), isCorrect: new FormControl(false) })
       ])
-      
+
     });
 
   get answerOptions(): FormArray {
@@ -93,7 +94,10 @@ export class QuestionEntryComponent implements OnInit {
 
 
   onSubmit() {
-    
+
+    this.isSubmitting = true;
+    this.questionTransactionForm.disable();
+
 
     const formData = new FormData();
     // Append form fields manually
@@ -104,7 +108,7 @@ export class QuestionEntryComponent implements OnInit {
     formData.append('answerColumns', this.questionTransactionForm.get('answerColumns')?.value);
     formData.append('minipageWidth', this.questionTransactionForm.get('miniPageWidth')?.value);
 
-    
+
 
     const width = this.questionTransactionForm.get('questionImageWidth')?.value;
     if (width) formData.append('questionImageWidth', width);
@@ -122,9 +126,37 @@ export class QuestionEntryComponent implements OnInit {
 
     this.http.post('https://academyofphysics-production.up.railway.app/api/QuestionEntry/add-question-with-answers', formData)
       .subscribe({
-        next: res => alert("Submitted successfully"),
-        error: err => alert("Failed: " + err.message)
+        next: (res) => {
+          alert("Submitted successfully");
+          this.resetForm();
+        },
+        error: (err) => {
+          alert("Failed: " + err.message);
+          this.questionTransactionForm.enable();
+          this.isSubmitting = false;
+        }
       });
   }
-  
+
+  resetForm() {
+    this.questionTransactionForm.reset({
+      questionTypeId: 1, questionSubjectId: 1, questionText: '', questionDifficultyLevelId: 1,
+      answerColumns: '2', miniPageWidth: '0.8', tagIds: [], questionImageWidth: null, questionImage: null
+    });        // Clear form fields
+    this.selectedImageFile = null;               // Clear file variable if you're using one
+    const answerArray = this.questionTransactionForm.get('answerOptions') as FormArray;
+    while (answerArray.length > 0) { answerArray.removeAt(0); }
+
+    // Reinitialize default 4 blank answers
+    for (let i = 0; i < 4; i++) {
+      answerArray.push(new FormGroup({
+        answerText: new FormControl("", [Validators.required]),
+        isCorrect: new FormControl(false)
+      }));
+    }
+
+    this.questionTransactionForm.enable();       // Re-enable form
+    this.isSubmitting = false;
+  }
+
 }

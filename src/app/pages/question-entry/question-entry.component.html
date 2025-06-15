@@ -80,7 +80,9 @@
 
       <div class="col-12 mt-2 mb-5">
         <button class="btn btn-primary" type="button" (click)="onSubmit()"
-          [disabled]="!questionTransactionForm.valid">Submit Question</button>
+          [disabled]="isSubmitting || questionTransactionForm.invalid">
+          {{ isSubmitting ? 'Submitting...' : 'Submit Question' }}
+        </button>
       </div>
     </form>
   </div>
