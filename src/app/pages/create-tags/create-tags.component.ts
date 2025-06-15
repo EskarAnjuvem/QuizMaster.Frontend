@@ -26,7 +26,10 @@ export class CreateTagsComponent {
   OnShowTags() {
     this.http.get<any[]>("https://academyofphysics-production.up.railway.app/api/TagReadWrite")
       .subscribe({
-        next: (data) => this.tags = data,
+        next: (data) => {
+          data.sort((a, b) => a.tagName.toLowerCase().localeCompare(b.tagName.toLowerCase())),
+          this.tags = data;
+        } ,
         error: (err) => this.errorMessage = "List can't be loaded"
       })
     this.showTagList = !this.showTagList;
