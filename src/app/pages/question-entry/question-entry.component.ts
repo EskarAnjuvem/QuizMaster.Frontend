@@ -46,13 +46,13 @@ export class QuestionEntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any[]>("http://localhost:7270/api/TagReadWrite")
+    this.http.get<any[]>("https://academyofphysics-production.up.railway.app/api/TagReadWrite")
       .subscribe(data => {
         data.sort((a, b) => a.tagName.localeCompare(b.tagName, undefined, { sensitivity: 'base' }));
         this.availableTags = data;
       });
 
-    this.http.get<any[]>("http://localhost:7270/api/QuestionEntry/questionTypes")
+    this.http.get<any[]>("https://academyofphysics-production.up.railway.app/api/QuestionEntry/questionTypes")
       .subscribe(data => {
         data.sort((a, b) => a.typeName.localeCompare(b.typeName, undefined, { sensitivity: 'base' }));
         this.availableTypes = data;
@@ -61,7 +61,7 @@ export class QuestionEntryComponent implements OnInit {
         this.questionTransactionForm.get('questionType')?.setValue(defaultType.id);
       });
 
-    this.http.get<any[]>("http://localhost:7270/api/QuestionEntry/subjects")
+    this.http.get<any[]>("https://academyofphysics-production.up.railway.app/api/QuestionEntry/subjects")
       .subscribe(data => {
         data.sort((a, b) => a.subjectName.localeCompare(b.subjectName, undefined, { sensitivity: 'base' }));
         this.availableSubjects = data;
@@ -70,7 +70,7 @@ export class QuestionEntryComponent implements OnInit {
         this.questionTransactionForm.get('questionSubject')?.setValue(defaultType.id);
       });
 
-    this.http.get<any[]>("http://localhost:7270/api/QuestionEntry/difficultyLevels")
+    this.http.get<any[]>("https://academyofphysics-production.up.railway.app/api/QuestionEntry/difficultyLevels")
       .subscribe(data => {
         data.sort((a, b) => a.levelName.localeCompare(b.levelName, undefined, { sensitivity: 'base' }));
         this.difficultyLevels = data;
@@ -120,7 +120,7 @@ export class QuestionEntryComponent implements OnInit {
     formData.append("tagIds", JSON.stringify(this.questionTransactionForm.value.tagIds));
 
 
-    this.http.post('http://localhost:7270/api/QuestionEntry/add-question-with-answers', formData)
+    this.http.post('https://academyofphysics-production.up.railway.app/api/QuestionEntry/add-question-with-answers', formData)
       .subscribe({
         next: res => alert("Submitted successfully"),
         error: err => alert("Failed: " + err.message)

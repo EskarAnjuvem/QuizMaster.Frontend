@@ -52,77 +52,7 @@
                 <label for="questionDescription" class="form-label">Question Text (in LaTeX)</label>
                 <textarea id="questionDescription" class="form-control" name="review" rows="2" cols="40" 
                     placeholder="Provide Question Statement..." formControlName="questionText"></textarea>
-            </div>
-
-            <!-- <div class="col-md-9">
-              <label for="answerOptionA" class="form-label">Answer Option A (in LaTeX)</label>
-              <textarea id="answerOptionA" class="form-control" name="review" rows="2" cols="40" 
-                  placeholder="Provide Answer Option Statement A..." formControlName="answerTextOptionA"></textarea>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Selected Answer Option A? </label> <br>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionACorrect" />
-                <label class="form-check-label" for="option1">True</label>
-              </div>                       
-
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionACorrect" />
-                <label class="form-check-label" for="option2">False</label>
-              </div>
-            </div>
- 
-            <div class="col-md-9">
-              <label for="answerOptionB" class="form-label">Answer Text (in LaTeX)</label>
-              <textarea id="answerOptionB" class="form-control" name="review" rows="2" cols="40" 
-                  placeholder="Provide Answer Option Statement B..." formControlName="answerTextOptionB"></textarea>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Selected Answer Option B? </label> <br>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionBCorrect" />
-                <label class="form-check-label" for="option1">True</label>
-              </div>   
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionBCorrect" />
-                <label class="form-check-label" for="option2">False</label>
-              </div>
-            </div>
-
-            <div class="col-md-9">
-              <label for="answerOptionC" class="form-label">Answer Text (in LaTeX)</label>
-              <textarea id="answerOptionC" class="form-control" name="review" rows="2" cols="40" 
-                  placeholder="Provide Answer Option Statement C..." formControlName="answerTextOptionC"></textarea>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Selected Answer Option C? </label> <br>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionCCorrect" />
-                <label class="form-check-label" for="option1">True</label>
-              </div>  
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionCCorrect" />
-                <label class="form-check-label" for="option2">False</label>
-              </div>
-            </div>
-
-            <div class="col-md-9">
-              <label for="answerOptionA" class="form-label">Answer Text (in LaTeX)</label>
-              <textarea id="answerOptionD" class="form-control" name="review" rows="2" cols="40" 
-                  placeholder="Provide Answer Option Statement D..." formControlName="answerTextOptionD"></textarea>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Selected Answer Option D? </label> <br>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio"  id="option1"  value="true" formControlName="isOptionDCorrect" />
-                <label class="form-check-label" for="option1">True</label>
-              </div>             
-              <div class="form-check form-check-inline">
-                <input class="form-check-input custom-radio" type="radio" id="option2" value="false"  formControlName="isOptionDCorrect" />
-                <label class="form-check-label" for="option2">False</label>
-              </div>
-            </div>     -->
-            
+            </div>            
             
             <div formArrayName="answerOptions" class="col-12">
               <div *ngFor="let answer of answerOptions.controls; let i = index" [formGroupName]="i" style="margin-bottom: 1em;" class="row">

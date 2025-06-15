@@ -9,7 +9,7 @@ import { FormsModule, NgModel } from '@angular/forms';
   templateUrl: './create-tags.component.html',
   styleUrl: './create-tags.component.css'
 })
-export class CreateTagsComponent implements OnInit {
+export class CreateTagsComponent {
   tags: any[] = [];
   showTagList: boolean = false;
   showTagButtonText: string = "Show Existing Tags";
@@ -19,21 +19,12 @@ export class CreateTagsComponent implements OnInit {
     id: "",
     tagName: ""
   }
-
-
   errorMessage: string = "";
-
-
-  ngOnInit() {
-    // this.http.get<any[]>("http://localhost:7270/api/TagReadWrite")
-    //   .subscribe({
-    //     next: (data) => this.tags = data,
-    //     error: (err) => this.errorMessage = "List can't be loaded"
-    //   })
-  }
+  
+  //https://academyofphysics-production.up.railway.app/
 
   OnShowTags() {
-    this.http.get<any[]>("http://localhost:7270/api/TagReadWrite")
+    this.http.get<any[]>("https://academyofphysics-production.up.railway.app/api/TagReadWrite")
       .subscribe({
         next: (data) => this.tags = data,
         error: (err) => this.errorMessage = "List can't be loaded"
@@ -50,7 +41,7 @@ export class CreateTagsComponent implements OnInit {
 
   OnSubmittingTag() {
     console.log(this.tagText);
-    this.http.post("http://localhost:7270/api/TagReadWrite", { tagName: this.tagText })
+    this.http.post("https://academyofphysics-production.up.railway.app/api/TagReadWrite", { tagName: this.tagText })
       .subscribe({
         next: (data: any) => { console.log("Success") },
         error: (err) => { console.log("Error") }
