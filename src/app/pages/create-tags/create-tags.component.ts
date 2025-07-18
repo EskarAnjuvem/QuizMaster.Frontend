@@ -20,7 +20,7 @@ export class CreateTagsComponent {
     tagName: ""
   }
   errorMessage: string = "";
-  
+
   //https://academyofphysics-production.up.railway.app/
 
   OnShowTags() {
@@ -29,7 +29,7 @@ export class CreateTagsComponent {
         next: (data) => {
           data.sort((a, b) => a.tagName.toLowerCase().localeCompare(b.tagName.toLowerCase()));
           this.tags = data;
-        } ,
+        },
         error: (err) => this.errorMessage = "List can't be loaded"
       })
     this.showTagList = !this.showTagList;

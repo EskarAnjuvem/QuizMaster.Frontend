@@ -61,19 +61,36 @@
       </div>
 
       <div formArrayName="answerOptions" class="col-12">
-        <div *ngFor="let answer of answerOptions.controls; let i = index" [formGroupName]="i"
-          style="margin-bottom: 1em;" class="row">
+        <div *ngFor="let answer of answerOptions.controls; let i = index" [formGroupName]="i" class="row mb-3">
           <div class="col-md-10">
             <label class="form-label">Answer Option {{ i + 1 }}:</label>
-            <textarea formControlName="answerText" class="form-control" rows="2" cols="40"
-              placeholder="Enter answer text"></textarea>
+            
+            <!-- Radio buttons -->
+            <div class="form-check form-check-inline mx-5">
+              <input type="radio" class="form-check-input custom-radio" [formControlName]="'answerInputType'" [value]="'text'" id="textOption{{i}}">
+              <label class="form-check-label" for="textOption{{i}}">Text</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" class="form-check-input custom-radio" [formControlName]="'answerInputType'" [value]="'image'" id="imageOption{{i}}">
+              <label class="form-check-label" for="imageOption{{i}}">Image</label>
+            </div>
+      
+            <!-- Show text input if selected -->
+            <div *ngIf="answer.get('answerInputType')?.value === 'text'" class="mt-2">
+              <textarea formControlName="answerText" class="form-control" rows="2" cols="40" placeholder="Enter answer text"></textarea>
+            </div>
+      
+            <!-- Show file input if selected -->
+            <div *ngIf="answer.get('answerInputType')?.value === 'image'" class="mt-2">
+              <input type="file" class="form-control" (change)="onAnswerImageSelected($event, i)">
+            </div>
           </div>
-
-          <div class="col-md-2 py-4 form-check custom-checkbox">
-            <label class="form-check-label"> Is Correct ? </label>
-            <input type="checkbox" class="form-check-input styled-checkbox" formControlName="isCorrect">
-            <!-- <input class="form-check-input custom-radio" type="radio" formControlName="isCorrect" value="false" name="isCorrect"/>    -->
-            <!-- Above associated only one radio option probably, so gives Bad Request repsonse -->
+      
+          <div class="col-md-2 d-flex align-items-center">
+            <div class="form-check mt-4">
+              <input type="checkbox" class="form-check-input styled-checkbox" formControlName="isCorrect" id="isCorrect{{i}}">
+              <label class="form-check-label" for="isCorrect{{i}}">Is Correct?</label>
+            </div>
           </div>
         </div>
       </div>

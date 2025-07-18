@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
@@ -29,15 +29,27 @@ export class QuestionEntryComponent implements OnInit {
       questionText: new FormControl("", [Validators.required]),
       questionDifficultyLevelId: new FormControl(1, [Validators.required]),
       answerColumns: new FormControl("2", [Validators.required]),
-      miniPageWidth: new FormControl("0.8"),
+      miniPageWidth: new FormControl("0.25"),
       tagIds: new FormControl([], [Validators.required]),
       questionImageWidth: new FormControl(null),
       questionImage: new FormControl(null),
       answerOptions: new FormArray([
-        new FormGroup({ answerText: new FormControl("", [Validators.required]), isCorrect: new FormControl(false) }),
-        new FormGroup({ answerText: new FormControl("", [Validators.required]), isCorrect: new FormControl(false) }),
-        new FormGroup({ answerText: new FormControl("", [Validators.required]), isCorrect: new FormControl(false) }),
-        new FormGroup({ answerText: new FormControl("", [Validators.required]), isCorrect: new FormControl(false) })
+        new FormGroup({
+          answerText: new FormControl(""), isCorrect: new FormControl(false),
+          answerInputType: new FormControl("text"), answerImage: new FormControl(null)
+        },[this.answerTextOrImageRequiredValidator]),
+        new FormGroup({
+          answerText: new FormControl(""), isCorrect: new FormControl(false),
+          answerInputType: new FormControl("text"), answerImage: new FormControl(null)
+        },[this.answerTextOrImageRequiredValidator]),
+        new FormGroup({
+          answerText: new FormControl(""), isCorrect: new FormControl(false),
+          answerInputType: new FormControl("text"), answerImage: new FormControl(null)
+        },[this.answerTextOrImageRequiredValidator]),
+        new FormGroup({
+          answerText: new FormControl(""), isCorrect: new FormControl(false),
+          answerInputType: new FormControl("text"), answerImage: new FormControl(null)
+        },[this.answerTextOrImageRequiredValidator])
       ])
 
     });
@@ -92,12 +104,27 @@ export class QuestionEntryComponent implements OnInit {
     }
   }
 
+  onAnswerImageSelected(event: any, index: number) {
+    const file = event.target.files[0];
+    if (file) {
+      this.answerOptions.at(index).patchValue({ answerImage: file });
+    }
+  }
+
+  answerTextOrImageRequiredValidator(group: AbstractControl): ValidationErrors | null {
+    const answerText = group.get('answerText')?.value;
+    const answerImage = group.get('answerImage')?.value; // or 'answerImageFile' as per your model
+  
+    if (!answerText && !answerImage) {
+      return { answerRequired: true };
+    }  
+    return null;
+  }
+
 
   onSubmit() {
-
     this.isSubmitting = true;
     this.questionTransactionForm.disable();
-
 
     const formData = new FormData();
     // Append form fields manually
@@ -108,21 +135,28 @@ export class QuestionEntryComponent implements OnInit {
     formData.append('answerColumns', this.questionTransactionForm.get('answerColumns')?.value);
     formData.append('minipageWidth', this.questionTransactionForm.get('miniPageWidth')?.value);
 
-
-
     const width = this.questionTransactionForm.get('questionImageWidth')?.value;
     if (width) formData.append('questionImageWidth', width);
 
     if (this.selectedImageFile) {
       formData.append('questionImage', this.selectedImageFile);
     }
+    
+    const answers = this.answerOptions;
+    for (let i = 0; i < answers.length; i++) {
+      const answerGroup = answers.at(i) as FormGroup;
+      const answer = answerGroup.value;
 
-    //const answers = this.questionTransactionForm.get('answerOptions')?.value;
-    //formData.append('answerOptions', JSON.stringify(answers)); // Must be stringified
+      formData.append(`Answers[${i}].AnswerText`, answer.answerText || '');
+      formData.append(`Answers[${i}].IsCorrect`, answer.isCorrect.toString());
 
-    formData.append("answerOptions", JSON.stringify(this.questionTransactionForm.value.answerOptions));
+      const answerImageFile = answer.answerImage;
+      if (answerImageFile) {
+        formData.append(`Answers[${i}].AnswerImage`, answerImageFile); // This matches IFormFile binding
+      }
+    }
+    
     formData.append("tagIds", JSON.stringify(this.questionTransactionForm.value.tagIds));
-
 
     this.http.post('https://academyofphysics-production.up.railway.app/api/QuestionEntry/add-question-with-answers', formData)
       .subscribe({
