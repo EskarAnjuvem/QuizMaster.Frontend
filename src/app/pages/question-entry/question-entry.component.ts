@@ -175,7 +175,7 @@ export class QuestionEntryComponent implements OnInit {
   resetForm() {
     this.questionTransactionForm.reset({
       questionTypeId: 1, questionSubjectId: 1, questionText: '', questionDifficultyLevelId: 1,
-      answerColumns: '2', miniPageWidth: '0.8', tagIds: [], questionImageWidth: null, questionImage: null
+      answerColumns: '2', miniPageWidth: '0.25', tagIds: [], questionImageWidth: null, questionImage: null
     });        // Clear form fields
     this.selectedImageFile = null;               // Clear file variable if you're using one
     const answerArray = this.questionTransactionForm.get('answerOptions') as FormArray;
@@ -184,13 +184,11 @@ export class QuestionEntryComponent implements OnInit {
     // Reinitialize default 4 blank answers
     for (let i = 0; i < 4; i++) {
       answerArray.push(new FormGroup({
-        answerText: new FormControl("", [Validators.required]),
-        isCorrect: new FormControl(false)
-      }));
+        answerText: new FormControl(""), isCorrect: new FormControl(false),
+        answerInputType: new FormControl("text"), answerImage: new FormControl(null)
+      },[this.answerTextOrImageRequiredValidator]));
     }
-
     this.questionTransactionForm.enable();       // Re-enable form
     this.isSubmitting = false;
   }
-
 }
